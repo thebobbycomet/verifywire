@@ -9,6 +9,8 @@
 
 VerifyWire eliminates payment fraud by letting banks publish their official payment rails as cryptographic hashes on the Doma blockchain. When payers receive payment instructions, they can instantly verify them against these bank-attested records, getting clear ✅/🟡/🔴 results.
 
+🔗 Try the app today: https://verifywire.vercel.app/
+
 ## 🎯 Who It Helps & Why It Matters
 
 **Target Users:** SMB finance teams, agencies, property managers — anyone wiring money to vendors.
