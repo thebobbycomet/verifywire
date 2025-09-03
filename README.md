@@ -4,7 +4,7 @@
 
 > **Trust, but verify.** Instant payment instruction validation against bank-attested rails on blockchain.
 
-[![DomainFi Challenge Hackathon](https://img.shields.io/badge/DomainFi-Challenge%20Hackathon-blue?style=flat-square)](https://dorahacks.io/hackathon/domainfi-challenge/detail)
+[![DomainFi Challenge Hackathon](https://img.shields.io/badge/DomainFi%20Challenge-DoraHacks%20Hackathon-blue?style=flat-square)](https://dorahacks.io/hackathon/domainfi-challenge/detail)
 
 
 VerifyWire eliminates payment fraud by letting banks publish their official payment rails as cryptographic hashes on the Doma blockchain. When payers receive payment instructions, they can instantly verify them against these bank-attested records, getting clear ✅/🟡/🔴 results.
