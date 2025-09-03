@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VerifyWire — Claim your bank</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <!-- Page-scoped tweaks -->
+  <style>
+    /* Remove the black line and tighten spacing just on this page */
+    .page-claim .topbar {
+      border-bottom: none;
+      margin-bottom: 8px;   /* was 16px */
+      padding-bottom: 0;    /* was 10px */
+    }
+    /* Reduce gap above the hero title */
+    .page-claim .hero.center {
+      padding-top: 8px;     /* was 24px from base.css */
+    }
+  </style>
+</head>
+<body class="page-claim">
+
+  <!-- Top rail -->
+  <header class="site-top">
+    <div class="container nav">
+      <div class="brand">
+        <a href="../index.html" aria-label="VerifyWire Home" class="logo-link">
+          <span class="logo" aria-hidden="true"></span>
+        </a>
+        <a href="../index.html" aria-label="VerifyWire Home">VerifyWire</a>
+      </div>
+      <nav class="top-links">
+        <a href="../check/index.html" class="btn clear">Verify Banking Details</a>
+        <div id="wallet-status" class="wallet-status">
+          <button id="connectWalletBtn" class="btn primary" onclick="connectWallet()">Connect Wallet</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Onboarding header with progress (right) -->
+  <div class="container">
+    <div class="topbar">
+      <div style="font-weight:900">Onboarding</div>
+      <div class="progress" id="vw-progress" data-step="1" data-total="5">
+        <span>Step 1 of 5</span>
+        <div class="progress-track"><div class="progress-fill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <main class="container site-main">
+    <section class="hero center">
+      <h1>Claim your bank</h1>
+      <p class="subtitle">Publish your official payment rails so payers can verify instructions.</p>
+    </section>
+
+    <form id="claimForm" class="card" novalidate>
+      <div class="form-grid">
+        <div class="field full">
+          <label for="legalName">Bank legal name</label>
+          <input id="legalName" name="legalName" type="text" placeholder="e.g., Bank of America, N.A." required />
+          <div class="error" id="err-legalName" hidden>Please enter the bank’s legal name.</div>
+        </div>
+
+        <div class="field">
+          <label for="brandName">Public brand name <span class="hint">(optional)</span></label>
+          <input id="brandName" name="brandName" type="text" placeholder="e.g., Bank of America" />
+        </div>
+
+        <div class="field">
+          <label for="shortCode">Short code</label>
+          <div class="row">
+            <input id="shortCode" name="shortCode" type="text" placeholder="e.g., boa" inputmode="lowercase" aria-describedby="shortHint" required />
+            <span id="availabilityBadge" class="badge">—</span>
+          </div>
+          <div class="hint" id="shortHint">Lowercase letters, numbers, and hyphens only (1–30 chars).</div>
+          <div class="error" id="err-shortCode" hidden>Short code must match <code>^[a-z0-9-]{1,30}$</code> and not start/end with a hyphen.</div>
+        </div>
+
+        <div class="checkbox">
+          <input id="auth" name="auth" type="checkbox" required />
+          <label for="auth">I am authorized to publish official payment rails for this institution.</label>
+        </div>
+      </div>
+
+      <div class="row" style="justify-content:flex-end; gap:12px; margin-top:8px;">
+        <a class="btn" href="../index.html">Cancel</a>
+        <button type="submit" class="btn primary" id="continueBtn" disabled>Continue →</button>
+      </div>
+
+      <div class="footer-note">Questions? <a href="mailto:support@verifywire.io">support@verifywire.io</a></div>
+    </form>
+  </main>
+
+  <!-- Bottom rail (fixed) -->
+  <footer class="site-bottom">
+    <div class="container nav">
+      <div class="links">
+        <a href="https://x.com/thebobbycomet">Built by Bobby Commet ☄️</a>
+      </div>
+      <div class="links">
+        <a href="https://github.com/thebobbycomet/verifywire">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../assets/js/main.js" type="module" defer></script>
+  <script src="../assets/js/validators.js" type="module"></script>
+  <script src="../assets/js/pages/onboarding-claim.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VerifyWire — Connect & authorize</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+</head>
+<body class="page-connect">
+
+  <!-- Top rail -->
+  <header class="site-top">
+    <div class="container nav">
+      <div class="brand">
+        <a href="../index.html" aria-label="VerifyWire Home" class="logo-link">
+          <span class="logo" aria-hidden="true"></span>
+        </a>
+        <a href="../index.html" aria-label="VerifyWire Home">VerifyWire</a>
+      </div>
+      <nav class="top-links">
+        <a href="../check/index.html" class="btn clear">Verify Banking Details</a>
+        <div id="wallet-status" class="wallet-status">
+          <button id="connectWalletBtn" class="btn primary" onclick="connectWallet()">Connect Wallet</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Onboarding header with progress -->
+  <div class="container">
+    <div class="topbar">
+      <div style="font-weight:900">Onboarding</div>
+      <div class="progress" id="vw-progress" data-step="2" data-total="5">
+        <span>Step 2 of 5</span>
+        <div class="progress-track"><div class="progress-fill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <main class="container site-main">
+    <section class="hero center">
+      <h1>Connect and authorize</h1>
+      <p class="subtitle">Connect your wallet on Doma Testnet to sign and publish your bank’s rails.</p>
+    </section>
+
+    <!-- Bank summary (from previous step) -->
+    <div class="card" id="bankSummary" hidden>
+      <strong id="bankName"></strong>
+      <div class="hint">Short code: <span id="bankCode"></span></div>
+    </div>
+
+    <!-- Connect panel -->
+    <div class="panel" style="margin-top:18px;">
+      <div class="row" style="justify-content:space-between; align-items:flex-start;">
+        <div>
+          <div style="font-weight:800; margin-bottom:6px;">Wallet connection</div>
+          <div class="hint">Network: <strong>Doma Testnet</strong></div>
+          <div class="hint" id="walletStatus">Status: Not connected</div>
+          <div class="hint" id="walletAddr" hidden>Address: <code id="addrText"></code></div>
+        </div>
+        <div class="row" style="gap:12px;">
+          <button class="btn" id="backBtn">← Back</button>
+          <button class="btn" id="connectBtn">Connect wallet</button>
+          <button class="btn primary" id="continueBtn" disabled>Continue →</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom rail (fixed) -->
+  <footer class="site-bottom">
+    <div class="container nav">
+      <div class="links">
+        <a href="https://x.com/thebobbycomet">Built by Bobby Commet ☄️</a>
+      </div>
+      <div class="links">
+        <a href="https://github.com/thebobbycomet/verifywire">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../assets/js/main.js" type="module" defer></script>
+  <script src="../assets/js/pages/onboarding-connect.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VerifyWire — Dashboard</title>
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://verifywire.vercel.app/dashboard.html">
+  <meta property="og:title" content="VerifyWire Dashboard - Manage Your Bank Rails">
+  <meta property="og:description" content="Manage your bank's payment rails on-chain. Publish ACH, Wire, and International routing details. Monitor verification activity and maintain trust with your payers.">
+  <meta property="og:image" content="https://verifywire.vercel.app/images/verifywire_opengraph.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="VerifyWire Dashboard - Manage your bank's payment rails on blockchain">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://verifywire.vercel.app/dashboard.html">
+  <meta property="twitter:title" content="VerifyWire Dashboard - Manage Your Bank Rails">
+  <meta property="twitter:description" content="Manage your bank's payment rails on-chain. Publish ACH, Wire, and International routing details. Monitor verification activity and maintain trust with your payers.">
+  <meta property="twitter:image" content="https://verifywire.vercel.app/images/verifywire_opengraph.png">
+  <meta property="twitter:image:alt" content="VerifyWire Dashboard - Manage your bank's payment rails on blockchain">
+
+  <!-- Additional SEO -->
+  <meta name="description" content="VerifyWire Dashboard - Manage your bank's payment rails on blockchain. Publish and verify ACH, Wire, and International routing details on-chain.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="keywords" content="bank dashboard, payment rails management, blockchain verification, ACH routing, wire transfers, bank compliance">
+  <link rel="canonical" href="https://verifywire.vercel.app/dashboard.html">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="./assets/css/base.css">
+  <link rel="stylesheet" href="./assets/css/components.css">
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+  <style>
+    .entity-card {
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 10px 0;
+      background: white;
+    }
+    .entity-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .entity-title {
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .entity-status {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .status-active { background: #d1fae5; color: #065f46; }
+    .status-pending { background: #fef3c7; color: #92400e; }
+    .entity-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 15px;
+    }
+    .entity-action {
+      padding: 6px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      background: white;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .entity-action:hover {
+      background: #f9fafb;
+    }
+    .rails-status {
+      display: flex;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    .rail-indicator {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 14px;
+    }
+    .rail-active { color: #059669; }
+    .rail-inactive { color: #9ca3af; }
+
+  </style>
+</head>
+<body>
+  <!-- Top rail -->
+  <header class="site-top">
+    <div class="container nav">
+      <div class="brand">
+        <a href="./index.html" aria-label="VerifyWire Home" class="logo-link">
+          <span class="logo" aria-hidden="true"></span>
+        </a>
+        <a href="./index.html" aria-label="VerifyWire Home">VerifyWire</a>
+      </div>
+      <nav class="top-links">
+        <div id="wallet-status" class="wallet-status">
+          <button id="connectWalletBtn" class="btn primary" onclick="connectWallet()">Connect Wallet</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+
+
+  <!-- Main -->
+  <main class="container site-main">
+    <section class="hero center" id="loadingSection">
+      <h1>Loading your dashboard...</h1>
+      <p>Please wait while we fetch your entities from the blockchain.</p>
+    </section>
+
+    <section class="hero center" id="noWalletSection" style="display: none;">
+      <h1>Connect Your Wallet</h1>
+      <p>Connect your wallet to view and manage your published entities.</p>
+      <button class="btn primary" onclick="connectWallet()">Connect Wallet</button>
+    </section>
+
+    <section id="dashboardSection" style="display: none;">
+      <div class="hero center">
+        <h1>Your Dashboard</h1>
+        <p>Manage your published bank entities and payment rails.</p>
+      </div>
+
+      <!-- Entity Cards Container -->
+      <div id="entitiesContainer">
+        <!-- Entity cards will be inserted here -->
+      </div>
+
+      <!-- Add New Entity -->
+      <div class="card" style="margin-top: 30px;">
+        <div class="row" style="justify-content:space-between; align-items:center;">
+          <div>
+            <strong>Register New Bank</strong><br/>
+            Add a new bank entity to publish payment rails for.
+          </div>
+          <a class="btn primary" href="./onboarding/claim.html">Add New Bank →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="hero center" id="errorSection" style="display: none;">
+      <h1>Connection Error</h1>
+      <p>There was an issue connecting to your wallet or the blockchain.</p>
+      <button class="btn" onclick="retryConnection()">Try Again</button>
+    </section>
+  </main>
+
+  <!-- Bottom rail -->
+  <footer class="site-bottom">
+    <div class="container nav">
+      <div class="links">
+        <a href="https://x.com/thebobbycomet">Built by Bobby Commet ☄️</a>
+      </div>
+      <div class="links">
+        <a href="https://github.com/thebobbycomet/verifywire">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./assets/js/main.js" type="module"></script>
+  <script type="module">
+    import { REGISTRY_ADDR, DOMA_RPC_URL } from "./assets/js/config.js";
+
+    let userWallet = null;
+    let provider = null;
+    let contract = null;
+
+    // Initialize on page load
+    window.addEventListener('load', initializeDashboard);
+
+    async function initializeDashboard() {
+      // Check if wallet is already connected
+      if (window.ethereum) {
+        try {
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+          if (accounts.length > 0) {
+            userWallet = accounts[0];
+            await setupContract();
+            await loadDashboard();
+            return;
+          }
+        } catch (error) {
+          console.error('Error checking wallet connection:', error);
+        }
+      }
+
+      // Show connect wallet section
+      showSection('noWalletSection');
+    }
+
+    async function connectWallet() {
+      try {
+        showSection('loadingSection');
+
+        if (!window.ethereum) {
+          alert('Please install MetaMask to use this feature.');
+          return;
+        }
+
+        // Request account access
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        userWallet = accounts[0];
+
+        // Setup contract connection
+        await setupContract();
+
+        // Load dashboard
+        await loadDashboard();
+
+      } catch (error) {
+        console.error('Error connecting wallet:', error);
+        showSection('errorSection');
+      }
+    }
+
+    async function setupContract() {
+      try {
+        provider = new ethers.JsonRpcProvider(DOMA_RPC_URL);
+        const abi = [
+          "function getRecord(string) view returns (address owner, uint64 updatedAt, uint32 version, bytes32 wireRouting, bytes32 wireAccount, bytes32 achRouting, bytes32 achAccount, bytes32 iban, bytes32 bic)",
+          "function getEntitiesByOwner(address) view returns (string[])"
+        ];
+        contract = new ethers.Contract(REGISTRY_ADDR, abi, provider);
+      } catch (error) {
+        console.error('Error setting up contract:', error);
+        throw error;
+      }
+    }
+
+    async function loadDashboard() {
+      try {
+        // Wallet info now handled by main.js renderWalletStatus()
+
+        // Get entities owned by this wallet
+        const entities = await contract.getEntitiesByOwner(userWallet);
+        console.log('Owned entities:', entities);
+
+        // Show dashboard
+        showSection('dashboardSection');
+
+        // Render entity cards
+        renderEntities(entities);
+
+      } catch (error) {
+        console.error('Error loading dashboard:', error);
+        showSection('errorSection');
+      }
+    }
+
+    function renderEntities(entities) {
+      const container = document.getElementById('entitiesContainer');
+
+      if (entities.length === 0) {
+        container.innerHTML = `
+          <div class="card">
+            <div class="hero center">
+              <h2>No Entities Found</h2>
+              <p>You haven't published any bank entities yet.</p>
+              <a class="btn primary" href="./onboarding/claim.html">Register Your First Bank →</a>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      // Render each entity
+      const entityCards = entities.map(async (shortCode) => {
+        try {
+          const record = await contract.getRecord(shortCode);
+          return createEntityCard(shortCode, record);
+        } catch (error) {
+          console.error(`Error loading entity ${shortCode}:`, error);
+          return createErrorCard(shortCode);
+        }
+      });
+
+      // Wait for all cards to be created
+      Promise.all(entityCards).then(cards => {
+        container.innerHTML = cards.join('');
+      });
+    }
+
+    function createEntityCard(shortCode, record) {
+      const [owner, updatedAt, version, wireRouting, wireAccount, achRouting, achAccount, iban, bic] = record;
+
+      // Empty string hash (what we get when rails are null/empty)
+      const emptyHash = ethers.keccak256(ethers.toUtf8Bytes(""));
+
+      // Check which rails have actual data (not empty hashes)
+      const hasWire = wireRouting !== ethers.ZeroHash && wireRouting !== emptyHash;
+      const hasACH = achRouting !== ethers.ZeroHash && achRouting !== emptyHash;
+      const hasIntl = iban !== ethers.ZeroHash && iban !== emptyHash;
+
+      return `
+        <div class="entity-card">
+          <div class="entity-header">
+            <div class="entity-title">${shortCode.toUpperCase()}</div>
+            <div class="entity-status status-active">Active</div>
+          </div>
+
+          <div class="rails-status">
+            <div class="rail-indicator ${hasWire ? 'rail-active' : 'rail-inactive'}">
+              ${hasWire ? '✅' : '⚪'} US Wire
+            </div>
+            <div class="rail-indicator ${hasACH ? 'rail-active' : 'rail-inactive'}">
+              ${hasACH ? '✅' : '⚪'} ACH
+            </div>
+            <div class="rail-indicator ${hasIntl ? 'rail-active' : 'rail-inactive'}">
+              ${hasIntl ? '✅' : '⚪'} International
+            </div>
+          </div>
+
+          <div style="margin: 10px 0; font-size: 14px; color: #6b7280;">
+            Version ${version} • Updated ${new Date(Number(updatedAt) * 1000).toLocaleDateString()}
+          </div>
+
+          <div class="entity-actions">
+            <button class="entity-action" onclick="viewEntity('${shortCode}')">View Details</button>
+            <button class="entity-action" onclick="editEntity('${shortCode}')">Edit Rails</button>
+            <button class="entity-action" onclick="transferEntity('${shortCode}')">Transfer</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function createErrorCard(shortCode) {
+      return `
+        <div class="entity-card">
+          <div class="entity-header">
+            <div class="entity-title">${shortCode.toUpperCase()}</div>
+            <div class="entity-status" style="background: #fecaca; color: #991b1b;">Error</div>
+          </div>
+          <div style="color: #dc2626; margin: 10px 0;">
+            Unable to load entity data
+          </div>
+        </div>
+      `;
+    }
+
+    function disconnectWallet() {
+      userWallet = null;
+      showSection('noWalletSection');
+    }
+
+    function retryConnection() {
+      initializeDashboard();
+    }
+
+    function showSection(sectionId) {
+      // Hide all sections
+      ['loadingSection', 'noWalletSection', 'dashboardSection', 'errorSection'].forEach(id => {
+        document.getElementById(id).style.display = 'none';
+      });
+
+      // Show target section
+      document.getElementById(sectionId).style.display = 'block';
+    }
+
+    // Global functions for button clicks
+    window.connectWallet = connectWallet;
+    window.disconnectWallet = disconnectWallet;
+    window.viewEntity = (shortCode) => {
+      alert(`View details for ${shortCode} - Feature coming soon!`);
+    };
+    window.editEntity = (shortCode) => {
+      window.location.href = `./onboarding/claim.html?edit=${shortCode}`;
+    };
+    window.transferEntity = (shortCode) => {
+      alert(`Transfer ownership of ${shortCode} - Feature coming soon!`);
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+[profile.default]
+src = 'src'
+out = 'out'
+libs = ['lib']
+
+remappings = ['@openzeppelin/=lib/openzeppelin-contracts/']
+
+[rpc_endpoints]
+doma_testnet = "https://rpc-testnet.doma.xyz"
+
+[etherscan]
+doma_testnet = { key = "" }
+
+# See more config options https://github.com/foundry-rs/foundry/tree/master/config

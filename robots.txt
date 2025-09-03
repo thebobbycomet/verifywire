@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /onboarding/
+Disallow: /dashboard.html
+Disallow: /check/
+
+Sitemap: https://verifywire.vercel.app/sitemap.xml

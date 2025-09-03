@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VerifyWire — Page Not Found</title>
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <style>
+    .error-hero {
+      text-align: center;
+      padding: 60px 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .error-code {
+      font-size: 120px;
+      font-weight: 900;
+      color: var(--ink);
+      line-height: 1;
+      margin: 0;
+    }
+    .error-title {
+      font-size: 28px;
+      margin: 20px 0;
+      color: var(--ink);
+    }
+    .error-description {
+      font-size: 18px;
+      color: var(--subtle);
+      margin: 20px 0 40px;
+      line-height: 1.6;
+    }
+    .error-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 600px) {
+      .error-code {
+        font-size: 80px;
+      }
+      .error-title {
+        font-size: 24px;
+      }
+      .error-description {
+        font-size: 16px;
+      }
+      .error-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Top rail (thin black line) -->
+  <header class="site-top">
+    <div class="container nav">
+      <div class="brand">
+        <a href="./index.html" aria-label="VerifyWire Home" class="logo-link">
+          <span class="logo" aria-hidden="true"></span>
+        </a>
+        <a href="./index.html" aria-label="VerifyWire Home">VerifyWire</a>
+      </div>
+      <nav class="top-links">
+        <div id="wallet-status" class="wallet-status">
+          <button id="connectWalletBtn" class="btn primary" onclick="window.location.href='./'">Go Home</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="container site-main">
+    <section class="error-hero">
+      <h1 class="error-code">404</h1>
+      <h2 class="error-title">Page Not Found</h2>
+      <p class="error-description">
+        The page you're looking for doesn't exist or may have been moved.
+        Let's get you back to verifying payment instructions safely.
+      </p>
+      <div class="error-actions">
+        <a href="./" class="btn primary">Go to Homepage</a>
+        <a href="./check/" class="btn secondary">Verify Payment</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-bottom">
+    <div class="container nav">
+      <div class="links">
+        <a href="https://x.com/thebobbycomet">Built by Bobby Commet ☄️</a>
+      </div>
+      <div class="links">
+        <a href="https://github.com/thebobbycomet/verifywire">GitHub</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

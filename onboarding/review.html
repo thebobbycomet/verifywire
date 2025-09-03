@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VerifyWire — Review & sign</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <style>
+    .preview{
+      background:#fff;border:2px solid var(--line);border-radius:var(--r-md);
+      box-shadow:var(--small-offset);padding:14px;overflow:auto;max-height:280px;
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+      font-size:13px;line-height:1.45;white-space:pre-wrap;word-break:break-word;
+    }
+    .kv{display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:center}
+    .codechip{display:inline-block;padding:6px 10px;border:2px solid var(--line);border-radius:var(--pill);
+      background:#fff;box-shadow:var(--small-offset);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:12px}
+    .badges{display:flex;gap:8px;flex-wrap:wrap}
+  </style>
+</head>
+<body class="page-review">
+
+  <!-- Top rail -->
+  <header class="site-top">
+    <div class="container nav">
+      <div class="brand">
+        <a href="../index.html" aria-label="VerifyWire Home" class="logo-link">
+          <span class="logo" aria-hidden="true"></span>
+        </a>
+        <a href="../index.html" aria-label="VerifyWire Home">VerifyWire</a>
+      </div>
+      <nav class="top-links">
+        <a href="../check/index.html" class="btn clear">Verify Banking Details</a>
+        <div id="wallet-status" class="wallet-status">
+          <button id="connectWalletBtn" class="btn primary" onclick="connectWallet()">Connect Wallet</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Onboarding header with progress -->
+  <div class="container">
+    <div class="topbar" style="border-bottom:none;margin-bottom:8px;padding-bottom:0">
+      <div style="font-weight:900">Onboarding</div>
+      <div class="progress" id="vw-progress" data-step="4" data-total="5">
+        <span>Step 4 of 5</span>
+        <div class="progress-track"><div class="progress-fill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <main class="container site-main">
+    <section class="hero center" style="padding-top:8px">
+      <h1>Review and sign</h1>
+      <p class="subtitle">Confirm details below. We’ll compute a content hash and ask your wallet to sign it before publishing.</p>
+    </section>
+
+    <!-- Bank summary -->
+    <div class="card">
+      <div class="kv">
+        <div style="font-weight:900;">Bank</div>
+        <div><span id="bankName">—</span></div>
+        <div style="font-weight:900;">Short code</div>
+        <div><span class="codechip" id="bankCode">—</span></div>
+      </div>
+    </div>
+
+    <!-- Rails included -->
+    <div class="card">
+      <div style="font-weight:900; margin-bottom:8px;">Rails included</div>
+      <div class="badges" id="railsIncluded"></div>
+    </div>
+
+    <!-- Payload preview -->
+    <div class="panel" style="margin-top:16px;">
+      <div style="font-weight:900; margin-bottom:8px;">Payload preview (canonical JSON)</div>
+      <div class="preview" id="payloadPreview">Loading…</div>
+      <div class="section-note" style="margin-top: 16px;">This is the exact JSON that will be hashed and referenced on-chain. Full JSON is stored off-chain; the hash anchors integrity.</div>
+    </div>
+
+    <!-- Hash & signature -->
+    <div class="panel" style="margin-top:16px;">
+      <div class="kv">
+        <div style="font-weight:900;">Schema</div>
+        <div><span class="codechip" id="schemaId">vwire-rails-v1</span></div>
+
+        <div style="font-weight:900;">Hash (SHA-256)</div>
+        <div><span class="codechip" id="hashHex">—</span></div>
+
+        <div style="font-weight:900;">Signature</div>
+        <div style="display: flex; flex-direction: column; align-items: flex-start;">
+          <span class="codechip" id="sigStatus">Not signed</span>
+          <div class="hint" id="addrHint" style="margin-top:6px;"></div>
+        </div>
+      </div>
+
+      <div class="row" style="justify-content:flex-end; gap:12px; margin-top:16px;">
+        <a class="btn" href="./add-rails.html">← Back</a>
+        <button class="btn" id="downloadJsonBtn" type="button">Download JSON</button>
+        <button class="btn primary" id="signPublishBtn" type="button">Sign & publish →</button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom rail (fixed) -->
+  <footer class="site-bottom">
+    <div class="container nav">
+      <div class="links">
+        <a href="https://x.com/thebobbycomet">Built by Bobby Commet ☄️</a>
+      </div>
+      <div class="links">
+        <a href="https://github.com/thebobbycomet/verifywire">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../assets/js/main.js" type="module"></script>
+  <script src="../assets/js/pages/onboarding-review.js" type="module"></script>
+</body>
+</html>

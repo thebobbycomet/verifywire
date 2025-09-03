@@ -1,0 +1,148 @@
+/* ===== Top rail (sticky with background) ===== */
+.site-top {
+  border-bottom: 2px solid var(--ink);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.site-top .nav {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; padding:8px 0;
+}
+
+/* Brand */
+.brand { display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.2px; }
+.brand .logo-link {
+  display: block;
+  text-decoration: none;
+}
+.brand .logo {
+  width:130px; height:60px;
+  background: url('/images/verifywire_logo.png') center/contain no-repeat;
+  border-radius: 8px;
+  display: block;
+}
+.brand a {
+  color: var(--ink);
+  text-decoration: none;
+  display: none; /* Hide the text to give logo more space */
+}
+
+/* Right links */
+.top-links { display:flex; align-items:center; gap:18px; font-size:14px; }
+.top-links a { color: var(--ink); font-weight: 700; }
+
+/* Clear button style */
+.btn.clear {
+  background: transparent;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+.btn.clear:hover {
+  background: var(--ink);
+  color: var(--bg);
+}
+
+/* Wallet status */
+.wallet-status { display:flex; align-items:center; gap:12px; }
+.wallet-connected { display:flex; align-items:center; gap:12px; font-size:14px; color: var(--ink); }
+.wallet-address { font-family: var(--mono); background: var(--bg); padding: 4px 8px; border-radius: 4px; border: 1px solid var(--ink); }
+.wallet-disconnect { background: #dc2626; color: white; border: none; padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer; }
+
+/* ===== Bottom rail (static at page bottom) ===== */
+.site-bottom {
+  border-top: 2px solid var(--ink);
+  background: var(--bg);
+  margin-top: 40px;
+}
+.site-bottom .nav {
+  display:flex; align-items:center; justify-content:space-between;
+  gap:12px; padding:20px var(--space);
+  font-size:14px; color:var(--muted);
+}
+.site-bottom .links { display:flex; gap:16px; }
+.site-bottom a { color: var(--ink); font-weight: 700; }
+
+/* ===== Homepage Modal Cards ===== */
+.modal-card {
+  min-height: 120px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+}
+
+.modal-content-area {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  flex: 1;
+}
+
+.modal-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.modal-content {
+  flex: 1;
+  line-height: 1.6;
+}
+
+.modal-action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.modal-spacing {
+  height: 40px;
+}
+
+/* ===== Onboarding progress header (for other pages) ===== */
+.topbar {
+  display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:16px;
+  border-bottom: 2px solid var(--ink); padding-bottom:10px;
+}
+
+/* Remove underline from specific onboarding pages */
+.page-connect .topbar,
+.page-add-rails .topbar {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Fix text styling on connect page */
+.page-connect .hint {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.page-connect #bankCode,
+.page-add-rails #bankCode {
+  font-size: 16px;
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* Fix text styling on review page */
+.page-review .hint {
+  color: var(--ink);
+}
+.progress { display:flex; align-items:center; gap:12px; color:var(--muted); font-size:14px; }
+.progress-track {
+  width:180px; height:10px; border:2px solid var(--ink); border-radius:999px; background:#fff;
+  box-shadow: 2px 2px 0 var(--ink); position:relative; overflow:hidden;
+}
+.progress-fill {
+  position:absolute; left:0; top:0; bottom:0; width:0%; background:var(--ink); border-radius:999px; transition: width .2s ease;
+}

@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VerifyWire — Add payment rails</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <!-- Page-scoped tweaks -->
+  <style>
+    .section-title { font-weight: 900; margin-bottom: 8px; }
+    .section-note { font-size: 13px; color: var(--subtle); margin-top: -6px; }
+    .section-disabled { opacity: .5; pointer-events: none; }
+  </style>
+</head>
+<body class="page-add-rails">
+
+  <!-- Top rail -->
+  <header class="site-top">
+    <div class="container nav">
+      <div class="brand">
+        <a href="../index.html" aria-label="VerifyWire Home" class="logo-link">
+          <span class="logo" aria-hidden="true"></span>
+        </a>
+        <a href="../index.html" aria-label="VerifyWire Home">VerifyWire</a>
+      </div>
+      <nav class="top-links">
+        <a href="../check/index.html" class="btn clear">Verify Banking Details</a>
+        <div id="wallet-status" class="wallet-status">
+          <button id="connectWalletBtn" class="btn primary" onclick="connectWallet()">Connect Wallet</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Onboarding header with progress -->
+  <div class="container">
+    <div class="topbar">
+      <div style="font-weight:900">Onboarding</div>
+      <div class="progress" id="vw-progress" data-step="3" data-total="5">
+        <span>Step 3 of 5</span>
+        <div class="progress-track"><div class="progress-fill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <main class="container site-main">
+    <section class="hero center">
+      <h1>Add payment rails</h1>
+      <p class="subtitle">Enter the official receiving details your bank uses. Provide US Wires, ACH, and/or International rails.</p>
+    </section>
+
+    <!-- Bank summary -->
+    <div class="card" id="bankSummary" hidden>
+      <strong id="bankName"></strong>
+      <div class="hint">Short code: <span id="bankCode"></span></div>
+    </div>
+
+    <!-- Rails form -->
+    <form id="railsForm" class="card" novalidate>
+      <div class="field full" style="margin-bottom:4px;">
+        <label>Choose rails to include</label>
+        <div class="row" style="flex-wrap:wrap; gap:16px;">
+          <label class="row" style="gap:8px;">
+            <input type="checkbox" id="enableWire" checked />
+            <span>US Wires</span>
+          </label>
+          <label class="row" style="gap:8px;">
+            <input type="checkbox" id="enableACH" checked />
+            <span>ACH</span>
+          </label>
+          <label class="row" style="gap:8px;">
+            <input type="checkbox" id="enableIntl" />
+            <span>International (IBAN / SWIFT)</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- US Wires -->
+      <div id="wireSection" class="panel" style="margin-top:12px;">
+        <div class="section-title">US Wires</div>
+        <div class="form-grid">
+          <div class="field">
+            <label for="wireRouting">Routing number (ABA)</label>
+            <input id="wireRouting" type="text" placeholder="9 digits" />
+            <div class="error" id="err-wireRouting" hidden>Routing number must be 9 digits and pass checksum.</div>
+          </div>
+          <div class="field">
+            <label for="wireAccount">Account number</label>
+            <input id="wireAccount" type="text" placeholder="Beneficiary account" />
+            <div class="error" id="err-wireAccount" hidden>Please enter an account number.</div>
+          </div>
+          <div class="field full">
+            <label for="wireNotes">Notes <span class="hint">(optional — e.g., “Use for domestic wires only”)</span></label>
+            <input id="wireNotes" type="text" placeholder="" />
+          </div>
+        </div>
+        <div class="section-note" style="margin-top: 12px;">We’ll store a hashed JSON on-chain and the full JSON off-chain.</div>
+      </div>
+
+      <!-- ACH -->
+      <div id="achSection" class="panel" style="margin-top:16px;">
+        <div class="section-title">ACH</div>
+        <div class="form-grid">
+          <div class="field">
+            <label for="achRouting">Routing number (ABA)</label>
+            <input id="achRouting" type="text" placeholder="9 digits" />
+            <div class="error" id="err-achRouting" hidden>Routing number must be 9 digits and pass checksum.</div>
+          </div>
+          <div class="field">
+            <label for="achAccount">Account number</label>
+            <input id="achAccount" type="text" placeholder="Beneficiary account" />
+            <div class="error" id="err-achAccount" hidden>Please enter an account number.</div>
+          </div>
+          <div class="field full">
+            <label for="achNotes">Notes <span class="hint">(optional — e.g., “ACH only, no wires”)</span></label>
+            <input id="achNotes" type="text" placeholder="" />
+          </div>
+        </div>
+      </div>
+
+      <!-- International -->
+      <div id="intlSection" class="panel section-disabled" style="margin-top:16px;">
+        <div class="section-title">International</div>
+        <div class="form-grid">
+          <div class="field">
+            <label for="intlIBAN">IBAN</label>
+            <input id="intlIBAN" type="text" placeholder="e.g., GB33BUKB20201555555555" />
+            <div class="error" id="err-intlIBAN" hidden>IBAN looks malformed. Example: GB33BUKB20201555555555</div>
+          </div>
+          <div class="field">
+            <label for="intlBIC">SWIFT / BIC</label>
+            <input id="intlBIC" type="text" placeholder="e.g., BOFAUS3N" />
+            <div class="error" id="err-intlBIC" hidden>BIC must be 8 or 11 characters (e.g., BOFAUS3N).</div>
+          </div>
+          <div class="field full">
+            <label for="intlNotes">Notes <span class="hint">(optional — e.g., “Use for EUR wires only”)</span></label>
+            <input id="intlNotes" type="text" placeholder="" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="row" style="justify-content:flex-end; gap:12px; margin-top:16px;">
+        <a class="btn" href="./connect.html">← Back</a>
+        <button type="button" class="btn" id="saveDraftBtn">💾 Save draft</button>
+        <button type="submit" class="btn primary" id="reviewBtn">Review →</button>
+      </div>
+    </form>
+  </main>
+
+  <!-- Bottom rail (fixed) -->
+  <footer class="site-bottom">
+    <div class="container nav">
+      <div class="links">
+        <a href="https://x.com/thebobbycomet">Built by Bobby Commet ☄️</a>
+      </div>
+      <div class="links">
+        <a href="https://github.com/thebobbycomet/verifywire">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../assets/js/main.js" type="module" defer></script>
+  <script src="../assets/js/validators.js" type="module"></script>
+  <script src="../assets/js/pages/onboarding-add-rails.js" type="module"></script>
+</body>
+</html>

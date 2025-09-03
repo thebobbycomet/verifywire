@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VerifyWire — Your rails are signed</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <style>
+    .oktag{display:inline-flex;align-items:center;gap:8px;font-weight:900}
+    .dot{width:12px;height:12px;border-radius:50%;background:#16a34a;border:2px solid var(--line);box-shadow:var(--small-offset)}
+    .codechip{
+      display:inline-block;padding:6px 10px;border:2px solid var(--line);border-radius: var(--pill);
+      background:#fff;box-shadow: var(--small-offset);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace;
+      font-size:12px;
+      max-width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; /* avoid overlap on long values */
+    }
+    .kv{display:grid;grid-template-columns:160px 1fr;gap:12px;align-items:center}
+    @media (max-width: 700px){ .kv{ grid-template-columns: 120px 1fr; } }
+    .value-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;min-width:0}
+    .value-row .codechip{flex:1 1 auto} /* let the chip shrink and ellipsis */
+    .preview{
+      background:#fff;border:2px solid var(--line);border-radius:var(--r-md);box-shadow:var(--small-offset);
+      padding:14px;overflow:auto;max-height:260px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace;
+      font-size:13px;line-height:1.45;white-space:pre-wrap;word-break:break-word
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top rail -->
+  <header class="site-top">
+    <div class="container nav">
+      <div class="brand">
+        <a href="../index.html" aria-label="VerifyWire Home" class="logo-link">
+          <span class="logo" aria-hidden="true"></span>
+        </a>
+        <a href="../index.html" aria-label="VerifyWire Home">VerifyWire</a>
+      </div>
+      <nav class="top-links">
+        <a href="../check/index.html" class="btn clear">Verify Banking Details</a>
+        <div id="wallet-status" class="wallet-status">
+          <button id="connectWalletBtn" class="btn primary" onclick="connectWallet()">Connect Wallet</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Onboarding header with progress -->
+  <div class="container">
+    <div class="topbar" style="border-bottom:none;margin-bottom:8px;padding-bottom:0">
+      <div style="font-weight:900">Onboarding</div>
+      <div class="progress" id="vw-progress" data-step="5" data-total="5">
+        <span>Step 5 of 5</span>
+        <div class="progress-track"><div class="progress-fill"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <main class="container site-main">
+    <section class="hero center" style="padding-top:8px">
+      <h1>Your rails are signed</h1>
+      <p class="subtitle">Share the receipt below or download it. Next, we’ll wire this into on-chain publish.</p>
+    </section>
+
+    <!-- Summary -->
+    <div class="card">
+      <div class="oktag"><span class="dot" aria-hidden="true"></span>Signed</div>
+      <div class="kv" style="margin-top:10px">
+        <div style="font-weight:900;">Bank</div>
+        <div><span id="bankName">—</span></div>
+        <div class="hint">Short code</div>
+        <div><span id="bankCode" class="codechip">—</span></div>
+      </div>
+    </div>
+
+    <!-- Receipt -->
+    <div class="panel" style="margin-top:16px;">
+      <div class="kv">
+        <div style="font-weight:900;">Schema</div>
+        <div><span id="schemaId" class="codechip">vwire-rails-v1</span></div>
+
+        <div style="font-weight:900;">Hash</div>
+        <div class="value-row">
+          <span id="hashHex" class="codechip">—</span>
+          <button class="btn" id="copyHashBtn" type="button">Copy</button>
+        </div>
+
+        <div style="font-weight:900;">Signature</div>
+        <div class="value-row">
+          <span id="sigVal" class="codechip">—</span>
+          <button class="btn" id="copySigBtn" type="button">Copy</button>
+        </div>
+
+        <div class="hint">On-chain tx</div>
+        <div><a id="txLink" class="btn" target="_blank" rel="noopener">View on Doma Explorer</a></div>
+
+        <div style="font-weight:900;">Signer</div>
+        <div><span id="signer" class="codechip">—</span></div>
+
+        <div class="hint">Signed message</div>
+        <div>
+          <!-- Use a preview block, not a pill, for multiline content -->
+          <pre id="signedMsg" class="preview" style="margin:0"></pre>
+        </div>
+      </div>
+
+      <div class="row" style="justify-content:flex-end; gap:12px; margin-top:16px;">
+        <a class="btn" href="./review.html">← Back</a>
+        <button class="btn" id="downloadReceiptBtn" type="button">Download receipt</button>
+        <a class="btn primary" href="../index.html">Finish →</a>
+      </div>
+    </div>
+
+    <!-- Raw JSON (what was signed) -->
+    <div class="card" style="margin-top:16px;">
+      <div style="font-weight:900; margin-bottom:8px;">Payload JSON</div>
+      <div id="payloadPreview" class="preview">—</div>
+      <div class="row" style="justify-content:flex-end; gap:12px; margin-top:10px;">
+        <button class="btn" id="downloadJsonBtn" type="button">Download JSON</button>
+        <a class="btn" href="../check/index.html">Open Paste-to-Check</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom rail -->
+  <footer class="site-bottom">
+    <div class="container nav">
+      <div class="links">
+        <a href="https://x.com/thebobbycomet">Built by Bobby Commet ☄️</a>
+      </div>
+      <div class="links">
+        <a href="https://github.com/thebobbycomet/verifywire">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js" type="module"></script>
+  <script src="../assets/js/pages/onboarding-share.js" type="module"></script>
+</body>
+</html>

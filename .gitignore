@@ -1,0 +1,79 @@
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Node modules (if any)
+node_modules/
+
+# Build outputs
+dist/
+build/
+out/
+
+# Foundry
+cache/
+out/
+broadcast/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+logs/
+*.log
+
+# Private keys and wallets
+*.pem
+*.key
+*private*
+*wallet*
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Sensitive data patterns (case-insensitive)
+*secret*
+*password*
+*token*
+*apikey*
+*api_key*
+*access_token*
+*auth*
+*credential*
+
+# Additional security
+*.keystore
+*.p12
+*.pfx
+*private_key*
+*public_key*
+*rsa*
+*dsa*
+
+# Personal security configuration (NEVER commit)
+.personal-security
+
+# Security documentation (keep private)
+SECURITY.md
+
+# Private project documentation
+docs/TASKS.md
+
+# Local verification scripts
+verify_git_identity.sh

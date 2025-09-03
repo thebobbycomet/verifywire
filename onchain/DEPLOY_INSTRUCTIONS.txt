@@ -1,0 +1,24 @@
+SECURE DEPLOYMENT INSTRUCTIONS FOR VERIFYWIRE REGISTRY
+
+⚠️  IMPORTANT: Never store private keys in files or commit them to version control.
+
+RECOMMENDED: Use environment variables (see ../SECURE_DEPLOY.md)
+
+SECURITY NOTE: Only use environment variables for private keys. Never pass them as command line arguments.
+
+Deploy using environment variables only:
+
+1. Fund your wallet:
+   - Go to https://faucet.doma.xyz/
+   - Connect your wallet
+   - Request test tokens
+
+2. Set your private key as an environment variable and deploy:
+   PRIVATE_KEY=your_private_key_here forge script script/Deploy.s.sol --rpc-url https://rpc-testnet.doma.xyz --broadcast --chain 97476
+
+5. Update config after deployment:
+   - Copy the deployed address from the deployment output
+   - Update /assets/js/config.js
+   - Update /contracts/deployments/doma-testnet.json
+
+SECURITY NOTE: The quick-deploy.sh script only uses the private key in memory and does not store it anywhere.

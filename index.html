@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VerifyWire — Home</title>
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://verifywire.vercel.app/">
+  <meta property="og:title" content="VerifyWire - Instant Payment Verification on Blockchain">
+  <meta property="og:description" content="Banks publish hashed payment rails on-chain. Payers verify instructions instantly against bank-attested records. Prevent BEC fraud with mathematical certainty.">
+  <meta property="og:image" content="https://verifywire.vercel.app/images/verifywire_opengraph.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="VerifyWire - Trust, but verify. Instant payment instruction validation against bank-attested rails on blockchain.">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://verifywire.vercel.app/">
+  <meta property="twitter:title" content="VerifyWire - Instant Payment Verification on Blockchain">
+  <meta property="twitter:description" content="Banks publish hashed payment rails on-chain. Payers verify instructions instantly against bank-attested records. Prevent BEC fraud with mathematical certainty.">
+  <meta property="twitter:image" content="https://verifywire.vercel.app/images/verifywire_opengraph.png">
+  <meta property="twitter:image:alt" content="VerifyWire - Trust, but verify. Instant payment instruction validation against bank-attested rails on blockchain.">
+
+  <!-- Additional SEO -->
+  <meta name="description" content="VerifyWire eliminates payment fraud by letting banks publish their official payment rails as cryptographic hashes on the Doma blockchain. Prevent BEC scams with mathematical certainty.">
+  <meta name="keywords" content="blockchain, payment verification, BEC fraud prevention, bank rails, crypto verification, Doma testnet">
+  <link rel="canonical" href="https://verifywire.vercel.app/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+  <!-- Top rail (thin black line) -->
+  <header class="site-top">
+    <div class="container nav">
+      <div class="brand">
+        <a href="./index.html" aria-label="VerifyWire Home" class="logo-link">
+          <span class="logo" aria-hidden="true"></span>
+        </a>
+        <a href="./index.html" aria-label="VerifyWire Home">VerifyWire</a>
+      </div>
+      <nav class="top-links">
+        <div id="wallet-status" class="wallet-status">
+          <button id="connectWalletBtn" class="btn primary" onclick="connectWallet()">Connect Wallet</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main content (reserve space for fixed footer) -->
+  <main class="container site-main">
+
+                <!-- Testnet Notification Bar -->
+    <div class="notification-bar" style="background-color: #0B6AFF; color: white; padding: 8px 20px; text-align: center; font-size: 14px; font-weight: 500; border-radius: 20px; margin: 0 auto 16px auto; display: block; width: fit-content;">
+      VerifyWire only available on Doma Testnet.
+      <a href="./testnet-tokens.html" style="color: #dbeafe; text-decoration: underline;">Get testnet tokens here</a>.
+    </div>
+
+    <section class="hero center">
+      <h1>Verify banking details, instantly</h1>
+      <p class="subtitle">
+        Banks can publish official payment rails; payers can verify instructions before sending funds. All verifiable onchain. Powered by <a href="https://doma.xyz/" style="color: #2563eb;" target="_blank" rel="noopener noreferrer">Doma Protocol</a>.
+      </p>
+    </section>
+
+    <div class="modal-spacing"></div>
+
+    <!-- Callouts -->
+    <div class="card modal-card">
+      <div class="modal-content-area">
+        <img src="/images/verifywire_icon_bank.png" alt="Bank Icon" class="modal-icon">
+        <div class="modal-content">
+          <strong>For Banks</strong><br/>
+          Connect your wallet to manage payment rails and publish verification data. Establish trust with your payers through onchain attestations.
+        </div>
+      </div>
+      <div class="modal-action">
+        <a class="btn primary" href="./onboarding/claim.html">Register Your Bank →</a>
+      </div>
+    </div>
+
+    <div class="card modal-card">
+      <div class="modal-content-area">
+        <img src="/images/verifywire_icon_payer.png" alt="Payer Icon" class="modal-icon">
+        <div class="modal-content">
+          <strong>For Payers</strong><br/>
+          Paste payment instructions to check them against bank-attested rails. Verify payment details before sending funds with confidence.
+        </div>
+      </div>
+      <div class="modal-action">
+        <a class="btn primary" href="./check/index.html">Verify Bank Details →</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Bottom rail (fixed to viewport bottom) -->
+  <footer class="site-bottom">
+    <div class="container nav">
+      <div class="links">
+        <a href="https://x.com/thebobbycomet">Built by Bobby Commet ☄️</a>
+      </div>
+      <div class="links">
+        <a href="https://github.com/thebobbycomet/verifywire">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js" type="module" defer></script>
+
+  <!-- Wallet Connection Script -->
+  <script>
+    async function connectWallet() {
+      const button = document.getElementById('connectWalletBtn');
+      const originalText = button.textContent;
+
+      try {
+        button.textContent = 'Connecting...';
+        button.disabled = true;
+
+        if (!window.ethereum) {
+          alert('Please install MetaMask to use this feature.');
+          return;
+        }
+
+        // Request account access
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        if (accounts.length > 0) {
+          // Redirect to dashboard
+          window.location.href = './dashboard.html';
+        }
+
+      } catch (error) {
+        console.error('Error connecting wallet:', error);
+        alert('Failed to connect wallet. Please try again.');
+      } finally {
+        button.textContent = originalText;
+        button.disabled = false;
+      }
+    }
+
+    // Make function globally available
+    window.connectWallet = connectWallet;
+  </script>
+</body>
+</html>

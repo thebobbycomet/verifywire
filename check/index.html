@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VerifyWire — Verify Banking Details</title>
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://verifywire.vercel.app/check/">
+  <meta property="og:title" content="VerifyWire - Check Payment Instructions">
+  <meta property="og:description" content="Paste payment instructions and instantly verify them against bank-attested rails on blockchain. Get clear ✅/🟡/🔴 results to prevent BEC fraud.">
+  <meta property="og:image" content="https://verifywire.vercel.app/images/verifywire_opengraph.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="VerifyWire - Instant payment verification against bank-attested rails">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://verifywire.vercel.app/check/">
+  <meta property="twitter:title" content="VerifyWire - Check Payment Instructions">
+  <meta property="twitter:description" content="Paste payment instructions and instantly verify them against bank-attested rails on blockchain. Get clear ✅/🟡/🔴 results to prevent BEC fraud.">
+  <meta property="twitter:image" content="https://verifywire.vercel.app/images/verifywire_opengraph.png">
+  <meta property="twitter:image:alt" content="VerifyWire - Instant payment verification against bank-attested rails">
+
+  <!-- Additional SEO -->
+  <meta name="description" content="VerifyWire payment verification tool. Paste banking instructions and instantly check them against on-chain bank attestations. Prevent BEC fraud with mathematical certainty.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="keywords" content="payment verification, BEC prevention, bank fraud detection, payment instructions check, blockchain verification">
+  <link rel="canonical" href="https://verifywire.vercel.app/check/">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="../assets/css/base.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <style>
+    .textarea {
+      width: 100%;
+      min-height: 180px;
+      resize: vertical;
+      border: 2px solid var(--line);
+      border-radius: var(--r-md);
+      padding: 12px;
+      background: #fff;
+      box-shadow: var(--small-offset);
+      font: 14px ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+    .kv { display:grid; grid-template-columns: 160px 1fr; gap:12px; }
+    @media (max-width: 700px){ .kv{ grid-template-columns: 120px 1fr; } }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace; }
+    .pill {
+      display:inline-block; padding:6px 10px; border:2px solid var(--line); border-radius: var(--pill);
+      background:#fff; box-shadow: var(--small-offset); font-size:12px; max-width:100%;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Courier New", monospace;
+    }
+    .result {
+      display:flex; align-items:center; gap:10px; font-weight:900;
+    }
+    .dot { width:12px; height:12px; border-radius:50%; border:2px solid var(--line); box-shadow: var(--small-offset); }
+    .dot.green { background:#16a34a; }
+    .dot.yellow{ background:#f59e0b; }
+    .dot.red   { background:#dc2626; }
+    .explain li { margin-bottom:6px; }
+    .hint-inline { font-size: 12px; color: var(--subtle); }
+  </style>
+</head>
+<body>
+
+  <!-- Top rail -->
+  <header class="site-top">
+    <div class="container nav">
+      <div class="brand">
+        <a href="../index.html" aria-label="VerifyWire Home" class="logo-link">
+          <span class="logo" aria-hidden="true"></span>
+        </a>
+        <a href="../index.html" aria-label="VerifyWire Home">VerifyWire</a>
+      </div>
+      <nav class="top-links">
+        <a href="../onboarding/claim.html" class="btn">Claim your bank →</a>
+        <div id="wallet-status" class="wallet-status">
+          <button id="connectWalletBtn" class="btn primary" onclick="connectWallet()">Connect Wallet</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main class="container site-main">
+    <section class="hero center">
+      <h1>Verify Banking Details</h1>
+      <p class="subtitle">Paste an email or invoice snippet. We’ll extract bank identifiers, compare to a bank’s attested rails on Doma Testnet, and return a verdict.</p>
+    </section>
+
+    <!-- Controls -->
+    <div class="card">
+      <div class="kv" style="align-items:center;">
+        <div style="font-weight:900;">Bank short code</div>
+        <div class="row" style="gap:10px; align-items:center;">
+          <input id="shortCode" type="text" placeholder="e.g., boa" class="mono" style="height:38px; padding:0 10px; border:2px solid var(--line); border-radius: var(--r-md);" />
+          <span class="hint-inline">Lowercase short code (temporary v1 selector)</span>
+        </div>
+
+        <div class="hint">Example</div>
+        <div class="row" style="gap:8px; flex-wrap:wrap;">
+          <button id="exampleBtn" class="btn">Insert example</button>
+          <button id="clearBtn"   class="btn">Clear</button>
+        </div>
+      </div>
+
+      <div style="margin-top:12px;">
+        <textarea id="pasteArea" class="textarea" placeholder="Paste payment instructions here (email text or invoice)…"></textarea>
+      </div>
+
+      <div class="row" style="justify-content:flex-end; gap:12px; margin-top:12px;">
+        <button id="checkBtn" class="btn primary">Check</button>
+      </div>
+    </div>
+
+    <!-- Extracted -->
+    <div class="panel" style="margin-top:16px;">
+      <div style="font-weight:900; margin-bottom:6px;">Extracted identifiers</div>
+      <div class="kv">
+        <div class="hint">Routing (ABA)</div>
+        <div><span id="exRouting" class="pill">—</span></div>
+        <div class="hint">Account</div>
+        <div><span id="exAccount" class="pill">—</span></div>
+        <div class="hint">IBAN</div>
+        <div><span id="exIBAN" class="pill">—</span></div>
+        <div class="hint">BIC</div>
+        <div><span id="exBIC" class="pill">—</span></div>
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div class="panel" style="margin-top:16px; background: #e6f7ff; border: 2px solid #1890ff;">
+      <div style="font-weight:900; margin-bottom:6px;">Status</div>
+      <div id="status" style="color: #1890ff;">Initializing...</div>
+    </div>
+
+    <!-- Verdict -->
+    <div class="panel" style="margin-top:16px;">
+      <div style="font-weight:900; margin-bottom:6px;">Result</div>
+      <div id="verdict" class="result"><span class="dot" id="dot"></span><span id="verdictText">—</span></div>
+      <ul id="explain" class="explain" style="margin-top:10px;"></ul>
+    </div>
+  </main>
+
+  <!-- Bottom rail -->
+  <footer class="site-bottom">
+    <div class="container nav">
+      <div class="links">
+        <a href="https://x.com/thebobbycomet">Built by Bobby Commet ☄️</a>
+      </div>
+      <div class="links">
+        <a href="https://github.com/thebobbycomet/verifywire">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../assets/js/main.js" type="module"></script>
+  <script type="module">
+    // Add console logging to debug module loading
+    console.log('Starting to load check.js...');
+
+    try {
+      await import('../assets/js/pages/check.js');
+      console.log('check.js loaded successfully');
+    } catch (error) {
+      console.error('Failed to load check.js:', error);
+      // Fallback: show error message
+      document.body.innerHTML = `
+        <div style="padding: 20px; font-family: Arial, sans-serif;">
+          <h1>Page Load Error</h1>
+          <p>Failed to load the check page functionality.</p>
+          <p>Error: ${error.message}</p>
+          <p>Please check the browser console for more details.</p>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>

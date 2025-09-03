@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>VerifyWire — Get Doma Testnet Tokens</title>
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://verifywire.vercel.app/testnet-tokens.html">
+  <meta property="og:title" content="How to Get Doma Testnet Tokens - VerifyWire">
+  <meta property="og:description" content="Complete guide to getting Doma testnet tokens for trying VerifyWire. Choose between faucet or bridge options.">
+  <meta property="og:image" content="https://verifywire.vercel.app/images/verifywire_opengraph.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="VerifyWire - Get Doma testnet tokens guide">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://verifywire.vercel.app/testnet-tokens.html">
+  <meta property="twitter:title" content="How to Get Doma Testnet Tokens - VerifyWire">
+  <meta property="twitter:description" content="Complete guide to getting Doma testnet tokens for trying VerifyWire. Choose between faucet or bridge options.">
+  <meta property="twitter:image" content="https://verifywire.vercel.app/images/verifywire_opengraph.png">
+  <meta property="twitter:image:alt" content="VerifyWire - Get Doma testnet tokens guide">
+
+  <!-- Additional SEO -->
+  <meta name="description" content="Step-by-step guide to getting Doma testnet tokens for VerifyWire. Use the faucet or bridge from Sepolia to get test ETH for the Doma Testnet.">
+  <meta name="keywords" content="Doma testnet, testnet tokens, faucet, bridge, Sepolia, VerifyWire, blockchain testnet">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://verifywire.vercel.app/testnet-tokens.html">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+
+  <style>
+    .method-card {
+      border: 2px solid var(--line);
+      border-radius: 8px;
+      padding: 24px;
+      margin: 20px 0;
+      background: white;
+    }
+    .method-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .method-icon {
+      width: 48px;
+      height: 48px;
+      background: #0B6AFF;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .method-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0;
+    }
+    .method-subtitle {
+      font-size: 16px;
+      color: var(--subtle);
+      margin: 4px 0 0 0;
+    }
+    .steps {
+      counter-reset: step-counter;
+    }
+    .step {
+      counter-increment: step-counter;
+      display: flex;
+      gap: 16px;
+      margin: 20px 0;
+      align-items: flex-start;
+    }
+    .step-number {
+      width: 32px;
+      height: 32px;
+      background: #0B6AFF;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .step-content {
+      flex: 1;
+    }
+    .step-title {
+      font-weight: 600;
+      font-size: 18px;
+      color: var(--ink);
+      margin: 0 0 8px 0;
+    }
+    .step-description {
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--subtle);
+      margin: 0 0 8px 0;
+    }
+    .step-link {
+      color: #0B6AFF;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .step-link:hover {
+      text-decoration: underline;
+    }
+    .config-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0;
+      background: #f8f9fa;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .config-table th,
+    .config-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    .config-table th {
+      background: #0B6AFF;
+      color: white;
+      font-weight: 600;
+    }
+    .config-table tr:last-child td {
+      border-bottom: none;
+    }
+    .highlight-box {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      border-radius: 6px;
+      padding: 16px;
+      margin: 16px 0;
+    }
+    .highlight-box p {
+      margin: 0;
+      color: #92400e;
+      font-size: 14px;
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #0B6AFF;
+      text-decoration: none;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top rail (thin black line) -->
+  <header class="site-top">
+    <div class="container nav">
+      <div class="brand">
+        <a href="./index.html" aria-label="VerifyWire Home" class="logo-link">
+          <span class="logo" aria-hidden="true"></span>
+        </a>
+        <a href="./index.html" aria-label="VerifyWire Home">VerifyWire</a>
+      </div>
+      <nav class="top-links">
+        <div id="wallet-status" class="wallet-status">
+          <button id="connectWalletBtn" class="btn primary" onclick="connectWallet()">Connect Wallet</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="container site-main">
+    <a href="./index.html" class="back-link">← Back to Home</a>
+
+    <section class="hero center">
+      <h1>Getting Doma Testnet Tokens</h1>
+      <p class="subtitle">
+        Get testnet tokens to try VerifyWire on the Doma Testnet. Choose the method that works best for you.
+      </p>
+    </section>
+
+    <!-- MetaMask Setup Box -->
+    <div class="method-card" style="background: #e0f2fe; border-color: #0ea5e9;">
+      <div class="method-header">
+        <div class="method-icon">🦊</div>
+        <div>
+          <h2 class="method-title">Get a MetaMask Wallet</h2>
+          <p class="method-subtitle">Required • Free • Secure • Most Popular</p>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Download MetaMask</div>
+            <div class="step-description">
+              Go to <a href="https://metamask.io/download/" class="step-link" target="_blank" rel="noopener noreferrer">metamask.io/download</a>
+              and install the browser extension or mobile app.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Create or Import Wallet</div>
+            <div class="step-description">
+              Follow the setup instructions to create a new wallet or import an existing one. Never share your seed phrase with anyone.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-title">Add DOMA Testnet</div>
+            <div class="step-description">
+              Use the network configuration details below to add the DOMA Testnet to your wallet.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Method 1: Faucet -->
+    <div class="method-card">
+      <div class="method-header">
+        <div class="method-icon">🚰</div>
+        <div>
+          <h2 class="method-title">Option 1: Use the DOMA Faucet</h2>
+          <p class="method-subtitle">Recommended • Free • Quick • ~0.02 test ETH every 24h</p>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Go to OmniHub's DOMA Testnet Faucet</div>
+            <div class="step-description">
+              Visit the official faucet at <a href="https://omnihub.xyz" class="step-link" target="_blank" rel="noopener noreferrer">omnihub.xyz</a>
+              and connect your wallet.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Complete Simple Tasks</div>
+            <div class="step-description">
+              Follow the required accounts and complete any faucet pass challenges that appear. This helps prevent abuse and ensures fair distribution.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-title">Claim Your Tokens</div>
+            <div class="step-description">
+              Click the claim button to receive ~0.02 test ETH. If the faucet shows low balance, try again later when it's refilled.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight-box">
+        <p><strong>💡 Pro tip:</strong> You can claim tokens once every 24 hours. The faucet balance gets refilled regularly, so if it's empty, check back later.</p>
+      </div>
+    </div>
+
+    <!-- Method 2: Bridge -->
+    <div class="method-card">
+      <div class="method-header">
+        <div class="method-icon">🌉</div>
+        <div>
+          <h2 class="method-title">Option 2: Bridge from Sepolia</h2>
+          <p class="method-subtitle">Backup Option • Requires Sepolia ETH • Instant • Any Amount</p>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Get Sepolia ETH</div>
+            <div class="step-description">
+              Make sure you have some Sepolia testnet ETH in your wallet. You can get it from the <a href="https://sepoliafaucet.com" class="step-link" target="_blank" rel="noopener noreferrer">Sepolia Faucet</a> if needed.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Use the Official Bridge</div>
+            <div class="step-description">
+              Visit <a href="https://bridge-testnet.doma.xyz" class="step-link" target="_blank" rel="noopener noreferrer">bridge-testnet.doma.xyz</a>
+              and connect your wallet with Sepolia ETH.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <div class="step-title">Bridge Your Tokens</div>
+            <div class="step-description">
+              Enter the amount you want to bridge (keep some Sepolia ETH for gas fees). Confirm the transaction and wait for it to complete.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="highlight-box">
+        <p><strong>⚠️ Important:</strong> Keep some Sepolia ETH in your wallet for gas fees on the source chain. The bridge requires gas on both networks.</p>
+      </div>
+    </div>
+
+    <!-- Network Configuration -->
+    <div class="method-card">
+      <div class="method-header">
+        <div class="method-icon">⚙️</div>
+        <div>
+          <h2 class="method-title">Add DOMA Testnet to Your Wallet</h2>
+          <p class="method-subtitle">Required • Make sure funds show up correctly</p>
+        </div>
+      </div>
+
+      <p style="margin-bottom: 16px; color: var(--subtle);">
+        Configure your wallet to show DOMA Testnet tokens and transactions. Use these official values from <a href="https://docs.doma.xyz" class="step-link" target="_blank" rel="noopener noreferrer">docs.doma.xyz</a>.
+      </p>
+
+      <table class="config-table">
+        <thead>
+          <tr>
+            <th>Setting</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Network Name</strong></td>
+            <td>DOMA Testnet</td>
+          </tr>
+          <tr>
+            <td><strong>Chain ID</strong></td>
+            <td>97476</td>
+          </tr>
+          <tr>
+            <td><strong>RPC URL</strong></td>
+            <td>https://rpc-testnet.doma.xyz</td>
+          </tr>
+          <tr>
+            <td><strong>Block Explorer</strong></td>
+            <td>https://explorer-testnet.doma.xyz</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Verification -->
+    <div class="method-card">
+      <div class="method-header">
+        <div class="method-icon">✅</div>
+        <div>
+          <h2 class="method-title">Verify Your Tokens</h2>
+          <p class="method-subtitle">Confirm • Check balances and transactions</p>
+        </div>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <div class="step-title">Check Your Balance</div>
+            <div class="step-description">
+              After adding the network to your wallet, your DOMA testnet tokens should appear automatically.
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <div class="step-title">Verify on Block Explorer</div>
+            <div class="step-description">
+              Paste your wallet address or transaction hash in the <a href="https://explorer-testnet.doma.xyz" class="step-link" target="_blank" rel="noopener noreferrer">DOMA Testnet Blockscout Explorer</a>
+              to confirm balances and transaction details.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="method-card" style="background: #f8f9fa; border-color: #e5e7eb;">
+      <div class="method-header">
+        <div class="method-icon">📝</div>
+        <div>
+          <h2 class="method-title">Important Notes</h2>
+          <p class="method-subtitle">About testnet tokens</p>
+        </div>
+      </div>
+
+      <ul style="color: var(--subtle); line-height: 1.6;">
+        <li><strong>Test-only tokens:</strong> Faucet and bridge tokens have no monetary value</li>
+        <li><strong>Network purpose:</strong> These tokens are for testing applications on the DOMA Testnet</li>
+        <li><strong>Regular refills:</strong> Faucet balances are replenished regularly</li>
+        <li><strong>Documentation:</strong> More details at <a href="https://docs.doma.xyz" class="step-link" target="_blank" rel="noopener noreferrer">docs.doma.xyz</a></li>
+      </ul>
+    </div>
+
+    <!-- Try VerifyWire CTA -->
+    <div style="text-align: center; margin: 40px 0;">
+      <a href="./" class="btn primary" style="font-size: 18px; padding: 12px 24px;">Try VerifyWire Now →</a>
+      <p style="margin: 32px 0 0 0; color: var(--subtle);">
+        Ready to test payment verification on the blockchain?
+      </p>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-bottom">
+    <div class="container nav">
+      <div class="links">
+        <a href="https://x.com/thebobbycomet">Built by Bobby Commet ☄️</a>
+      </div>
+      <div class="links">
+        <a href="https://github.com/thebobbycomet/verifywire">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.2/dist/ethers.umd.min.js"></script>
+  <script>
+    // Wallet connection functionality (same as other pages)
+    async function connectWallet() {
+      if (!window.ethereum) {
+        alert('Please install MetaMask or another Web3 wallet to continue.');
+        return;
+      }
+
+      const button = document.getElementById('connectWalletBtn');
+      const originalText = button.textContent;
+
+      try {
+        button.textContent = 'Connecting...';
+        button.disabled = true;
+
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        if (accounts.length > 0) {
+          // Redirect to dashboard
+          window.location.href = './dashboard.html';
+        }
+
+      } catch (error) {
+        console.error('Error connecting wallet:', error);
+        alert('Failed to connect wallet. Please try again.');
+      } finally {
+        button.textContent = originalText;
+        button.disabled = false;
+      }
+    }
+
+    // Make function globally available
+    window.connectWallet = connectWallet;
+  </script>
+</body>
+</html>
